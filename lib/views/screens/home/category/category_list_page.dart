@@ -9,13 +9,13 @@ import 'package:provider/provider.dart';
 
 import 'components/staggered_category_card.dart';
 
-class CategoryListPage extends StatefulWidget {
+class CategoryListPageScreen extends StatefulWidget {
   static String routeName = "/category";
   @override
-  _CategoryListPageState createState() => _CategoryListPageState();
+  _CategoryListPageScreenState createState() => _CategoryListPageScreenState();
 }
 
-class _CategoryListPageState extends State<CategoryListPage> {
+class _CategoryListPageScreenState extends State<CategoryListPageScreen> {
   // List<CategoryModel> categories = [
   //   Category(
   //     Color(0xffFCE183),

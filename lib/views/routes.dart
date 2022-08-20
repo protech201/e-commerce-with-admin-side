@@ -29,7 +29,7 @@ final Map<String, WidgetBuilder> routes = {
   DetailsScreen.routeName: (context) => DetailsScreen(),
   CartScreen.routeName: (context) => CartScreen(),
   ProfileScreen.routeName: (context) => ProfileScreen(),
-  CategoryListPage.routeName: (context) => CategoryListPage(),
+  CategoryListPageScreen.routeName: (context) => CategoryListPageScreen(),
   FavourtListPage.routeName :(context) => FavourtListPage()
 
 

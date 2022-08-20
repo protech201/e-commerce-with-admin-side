@@ -60,7 +60,7 @@ class CustomBottomNavBar extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.menu,color: Colors.grey,),
                 onPressed: () {
-                  Navigator.pushNamed(context, CategoryListPage.routeName);
+                  Navigator.pushNamed(context, CategoryListPageScreen.routeName);
                 },
               ),
               IconButton(

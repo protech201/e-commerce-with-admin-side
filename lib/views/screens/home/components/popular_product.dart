@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myecommerce/provider/CategoryFirestoreProvaider.dart';
-import 'package:myecommerce/provider/Product_firestore_provaider.dart';
 import 'package:myecommerce/views/admin/category/category_list_page.dart';
 import 'package:myecommerce/views/components/category_card.dart';
-import 'package:myecommerce/views/components/product_card.dart';
-import 'package:myecommerce/models/Product.dart';
+
 import 'package:myecommerce/views/navigation/router.dart';
+import 'package:myecommerce/views/screens/home/category/category_list_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../../size_config.dart';
@@ -23,7 +22,7 @@ class PopularProducts extends StatelessWidget {
               padding:
                   EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
               child: SectionTitle(title: "Categories", press: () {
-                AppRouter.NavigateToWidget(CategoryListPage());
+               AppRouter.NavigateToWidget(CategoryListPageScreen());
               }),
             ),
             SizedBox(height: getProportionateScreenWidth(20)),
