@@ -1,32 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:myecommerce/models/product_model.dart';
 import 'package:myecommerce/provider/Product_firestore_provaider.dart';
-import 'package:myecommerce/views/admin/TextFieldAuth.dart';
+import 'package:myecommerce/admin_side/admin/TextFieldAuth.dart';
 import 'package:myecommerce/views/components/custom_dialog.dart';
 import 'package:myecommerce/views/constants.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:myecommerce/views/navigation/router.dart';
 
 import 'package:provider/provider.dart';
 
 
 
-class EditProductScreen extends StatelessWidget {
-   late ProductModel productModel;
-   EditProductScreen(ProductModel productModel){
-     this.productModel = productModel;
-     clearTextField();
+class AddProductCatScreen extends StatefulWidget {
+  String catId;
+  AddProductCatScreen(this.catId);
+  @override
+  State<AddProductCatScreen> createState() => _AddProductCatScreenState();
+}
 
-   }
-  clearTextField(){
+class _AddProductCatScreenState extends State<AddProductCatScreen> {
+  // clearTextField(){
+  String selectedCategory = "Select category";
 
-    Provider.of<ProductFirestoreProvaider>(AppRouter.navKey.currentContext!,listen: false).productTitleController.text = productModel.title;
-    Provider.of<ProductFirestoreProvaider>(AppRouter.navKey.currentContext!,listen: false).productPriceController.text = productModel.price;
-    Provider.of<ProductFirestoreProvaider>(AppRouter.navKey.currentContext!,listen: false).productDescriptionController.text = productModel.description;
-    // Provider.of<ProductFirestoreProvaider>(AppRouter.navKey.currentContext!,listen: false)..text = productModel.title;
 
-    // Provider.of<ProductFirestoreProvaider>(AppRouter.navKey.currentContext!,listen:  false).selectedImage=null;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +31,8 @@ class EditProductScreen extends StatelessWidget {
         builder: (context,provider,x) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Edit Product',style: TextStyle(
-                  color: Colors.grey
+              title: Text('Add Product',style: TextStyle(
+                color: Colors.grey
               ),),
               centerTitle: true,
               // backgroundColor: kPrimaryColor,
@@ -49,11 +45,8 @@ class EditProductScreen extends StatelessWidget {
               //   icon: Icon(Icons.language),),],
               leading: IconButton(
 
-                icon: Icon(Icons.arrow_back),color: Colors.grey, onPressed: () {
-                AppRouter.popraoter();
-                provider.productDescriptionController.clear();
-                provider.productPriceController.clear();
-                provider.productTitleController.clear();
+               icon: Icon(Icons.arrow_back),color: Colors.grey, onPressed: () {
+                 AppRouter.popraoter();
               },),
             ),
             body: SafeArea(
@@ -70,9 +63,9 @@ class EditProductScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 20,top: 20),
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width,
-                            child: Text('Edit  Image',style: TextStyle(
-                              fontSize: 25.sp,
-                              // color:kPrimaryColor,
+                            child: Text('Add Image',style: TextStyle(
+                                fontSize: 25.sp,
+                                // color:kPrimaryColor,
 
                             ),textAlign: TextAlign.start,),
                           ),
@@ -93,10 +86,10 @@ class EditProductScreen extends StatelessWidget {
 
 
                               ),
-                              child: (provider.selectedImage == null)
-                                  ?Image.network(productModel.image)
-                                  :Image.file(provider.selectedImage!),
-
+                              child: provider.selectedImage == null?
+                              Icon(Icons.add_a_photo_outlined,size: 25.sp,)
+                                  :Image.file(provider.selectedImage!)
+                              ,
                             ),
                           ),
                         ),
@@ -115,13 +108,71 @@ class EditProductScreen extends StatelessWidget {
                           controller: provider.productPriceController,
                           validator: provider.nullvaliation,
                         ),
-                        // SizedBox(height: 10.h,),
-                        // TextFieldAuthWidget(
-                        //   hintText: 'Price',
-                        //   suffix: Icon(Icons.perm_identity),
-                        //   controller: provider.productPriceController,
-                        //   validator: provider.nullvaliation,
+                        // SizedBox(height: 20.h,),
+                        // SizedBox(
+                        //   width: 360.w,
+                        //   child: DropdownButtonFormField2(
+                        //     decoration: InputDecoration(
+                        //       border: OutlineInputBorder(
+                        //         borderRadius: BorderRadius.circular(10),
+                        //         borderSide: BorderSide(color: kPrimaryColor, width: 1),
+                        //       ),
+                        //       enabledBorder: OutlineInputBorder(
+                        //         borderRadius: BorderRadius.circular(10),
+                        //         borderSide: BorderSide(color: kPrimaryColor, width: 1),
+                        //       ),
+                        //       focusedBorder: OutlineInputBorder(
+                        //         borderRadius: BorderRadius.circular(10),
+                        //         borderSide: BorderSide(color: kPrimaryColor, width: 1),
+                        //       ),
+                        //
+                        //       hintStyle: TextStyle(fontSize: 15.sp,color: Colors.grey),
+                        //     ),
+                        //     isExpanded: true,
+                        //     hint: const Text(
+                        //       'Select Your Category',
+                        //       style: TextStyle(fontSize: 14),
+                        //     ),
+                        //     icon: const Icon(
+                        //       Icons.arrow_drop_down,
+                        //       color: Colors.black45,
+                        //     ),
+                        //     iconSize: 30.h,
+                        //     buttonHeight: 20.h,
+                        //     buttonPadding: const EdgeInsets.only(left: 20, right: 10),
+                        //     dropdownDecoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(15),
+                        //     ),
+                        //     items: provider.products.map((item) =>
+                        //         DropdownMenuItem<String>(
+                        //           value: item.title,
+                        //           child: Text(
+                        //             item.title,
+                        //             style: const TextStyle(
+                        //               fontSize: 14,
+                        //             ),
+                        //           ),
+                        //         ))
+                        //         .toList(),
+                        //     validator: (value) {
+                        //       if (value == null) {
+                        //         return 'Please select gender.';
+                        //       }
+                        //     },
+                        //     onChanged: (value) {
+                        //       //Do something when changing the item if you want.
+                        //     },
+                        //     onSaved: (value) {
+                        //       selectedCategory = value.toString();
+                        //     },
+                        //   ),
                         // ),
+
+
+
+
+
+
                         SizedBox(height: 40.h,),
 
                         TextFieldAuthWidget(
@@ -157,10 +208,12 @@ class EditProductScreen extends StatelessWidget {
 
                         InkWell(
                           onTap: () async {
-                            await provider.upDateProduct(productModel);
-                            await Diloge.show("Product Saved");
-
-                            provider.selectedImage = null;
+                              await provider.addNewProduct(widget.catId);
+                              await Diloge.show("Product added");
+                              provider.productDescriptionController.clear();
+                              provider.productPriceController.clear();
+                              provider.productTitleController.clear();
+                              provider.selectedImage = null;
 
                           },
                           child: Container(
@@ -178,7 +231,7 @@ class EditProductScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            child: Text('Edit Product',style: TextStyle(fontSize: 25.sp,color: Colors.white),),
+                            child: Text('Add Product',style: TextStyle(fontSize: 25.sp,color: Colors.white),),
                           ),
                         ),
                         SizedBox(height: 10.h,),

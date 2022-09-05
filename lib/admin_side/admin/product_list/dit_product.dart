@@ -1,35 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:myecommerce/provider/CategoryFirestoreProvaider.dart';
+import 'package:myecommerce/models/product_model.dart';
 import 'package:myecommerce/provider/Product_firestore_provaider.dart';
+import 'package:myecommerce/admin_side/admin/TextFieldAuth.dart';
 import 'package:myecommerce/views/components/custom_dialog.dart';
 import 'package:myecommerce/views/constants.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:myecommerce/views/navigation/router.dart';
 
 import 'package:provider/provider.dart';
 
 
-import '../navigation/router.dart';
-import 'TextFieldAuth.dart';
-class AddCategoryScreen extends StatefulWidget {
-  @override
-  State<AddCategoryScreen> createState() => _AddCategoryScreenState();
-}
 
-class _AddCategoryScreenState extends State<AddCategoryScreen> {
-  // clearTextField(){
-  String selectedCategory = "Select category";
+class EditProductScreen extends StatelessWidget {
+   late ProductModel productModel;
+   EditProductScreen(ProductModel productModel){
+     this.productModel = productModel;
+     clearTextField();
 
+   }
+  clearTextField(){
 
+    Provider.of<ProductFirestoreProvaider>(AppRouter.navKey.currentContext!,listen: false).productTitleController.text = productModel.title;
+    Provider.of<ProductFirestoreProvaider>(AppRouter.navKey.currentContext!,listen: false).productPriceController.text = productModel.price;
+    Provider.of<ProductFirestoreProvaider>(AppRouter.navKey.currentContext!,listen: false).productDescriptionController.text = productModel.description;
+    // Provider.of<ProductFirestoreProvaider>(AppRouter.navKey.currentContext!,listen: false)..text = productModel.title;
+
+    // Provider.of<ProductFirestoreProvaider>(AppRouter.navKey.currentContext!,listen:  false).selectedImage=null;
+  }
 
   @override
   Widget build(BuildContext context) {
     // clearTextField();
-    return Consumer<CategoryFirestoreProvaider>(
+    return Consumer<ProductFirestoreProvaider>(
         builder: (context,provider,x) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Add Category',style: TextStyle(
+              title: Text('Edit Product',style: TextStyle(
                   color: Colors.grey
               ),),
               centerTitle: true,
@@ -45,6 +51,9 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
 
                 icon: Icon(Icons.arrow_back),color: Colors.grey, onPressed: () {
                 AppRouter.popraoter();
+                provider.productDescriptionController.clear();
+                provider.productPriceController.clear();
+                provider.productTitleController.clear();
               },),
             ),
             body: SafeArea(
@@ -53,7 +62,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: Form(
-                    key: provider.cateKey,
+                    key: provider.prodKey,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -61,7 +70,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                           padding: const EdgeInsets.only(left: 20,top: 20),
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width,
-                            child: Text('Add Image',style: TextStyle(
+                            child: Text('Edit  Image',style: TextStyle(
                               fontSize: 25.sp,
                               // color:kPrimaryColor,
 
@@ -84,39 +93,73 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
 
 
                               ),
-                              child: provider.selectedImage == null?
-                              Icon(Icons.add_a_photo_outlined,size: 25.sp,)
-                                  :Image.file(provider.selectedImage!)
-                              ,
+                              child: (provider.selectedImage == null)
+                                  ?Image.network(productModel.image)
+                                  :Image.file(provider.selectedImage!),
+
                             ),
                           ),
                         ),
                         SizedBox(height: 40.h,),
 
                         TextFieldAuthWidget(
-                          hintText: 'Category name',
+                          hintText: 'product name',
                           suffix: Icon(Icons.drive_file_rename_outline),
-                          controller: provider.categoryNameController,
+                          controller: provider.productTitleController,
                           validator: provider.nullvaliation,
                         ),
                         SizedBox(height: 20.h,),
-
+                        TextFieldAuthWidget(
+                          hintText: 'Price',
+                          suffix: Icon(Icons.attach_money),
+                          controller: provider.productPriceController,
+                          validator: provider.nullvaliation,
+                        ),
+                        // SizedBox(height: 10.h,),
                         // TextFieldAuthWidget(
                         //   hintText: 'Price',
-                        //   suffix: Icon(Icons.attach_money),
+                        //   suffix: Icon(Icons.perm_identity),
                         //   controller: provider.productPriceController,
                         //   validator: provider.nullvaliation,
                         // ),
                         SizedBox(height: 40.h,),
 
+                        TextFieldAuthWidget(
+                          hintText: 'Description',
+                          controller: provider.productDescriptionController,
+                          validator: provider.nullvaliation,
+                          maxLine: 3,
+                        ),
                         SizedBox(height: 20.h,),
+                        // TextFieldAuthWidget(
+                        //   textInputType: TextInputType.number,
+                        //   hintText: 'Number of stars',
+                        //   suffix: Icon(Icons.star_rounded),
+                        //   controller: provider.starsController,
+                        //   validator: provider.nullValidation,
+                        // ),
+                        // SizedBox(
+                        //   width: 320.w,
+                        //   child: Row(
+                        //     children: [
+                        //       Text('This course is Online?'.tr(),style: TextStyle(fontSize: 15.sp,color: kPrimaryColor),),
+                        //       Checkbox(
+                        //         activeColor: Colors_Ui.main2Color,
+                        //         value: provider.isOnline,
+                        //         onChanged: (value){
+                        //           provider.isOnlineFun(value!);
+                        //         },
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                         SizedBox(height: 30.h,),
 
                         InkWell(
                           onTap: () async {
-                            await provider.addNewCategory();
-                            await Diloge.show("Category added");
-                            provider.categoryNameController.clear();
+                            await provider.upDateProduct(productModel);
+                            await Diloge.show("Product Saved");
+
                             provider.selectedImage = null;
 
                           },
@@ -135,7 +178,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                                 ),
                               ],
                             ),
-                            child: Text('Add Category',style: TextStyle(fontSize: 25.sp,color: Colors.white),),
+                            child: Text('Edit Product',style: TextStyle(fontSize: 25.sp,color: Colors.white),),
                           ),
                         ),
                         SizedBox(height: 10.h,),

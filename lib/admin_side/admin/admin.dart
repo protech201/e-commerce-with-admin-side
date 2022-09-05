@@ -2,13 +2,14 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:myecommerce/admin_side/admin/brand.dart';
 import 'package:myecommerce/provider/Product_firestore_provaider.dart';
-import 'package:myecommerce/views/admin/add_category_screen.dart';
-import 'package:myecommerce/views/admin/brand.dart';
-import 'package:myecommerce/views/admin/category.dart';
-import 'package:myecommerce/views/admin/category/category_list_page.dart';
-import 'package:myecommerce/views/admin/category_list/category_list.dart';
-import 'package:myecommerce/views/admin/product_list/product_list.dart';
+import 'package:myecommerce/admin_side/admin/add_category_screen.dart';
+import 'package:myecommerce/admin_side/admin/brand.dart';
+import 'package:myecommerce/admin_side/admin/category.dart';
+import 'package:myecommerce/admin_side/admin/category/category_list_page.dart';
+import 'package:myecommerce/admin_side/admin/category_list/category_list.dart';
+import 'package:myecommerce/admin_side/admin/product_list/product_list.dart';
 import 'package:myecommerce/views/navigation/router.dart';
 import 'package:provider/provider.dart';
 enum Page { dashboard, manage }

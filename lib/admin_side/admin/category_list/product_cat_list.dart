@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myecommerce/provider/Product_firestore_provaider.dart';
-import 'package:myecommerce/views/admin/category_list/add_product_cat_screen.dart';
-import 'package:myecommerce/views/admin/product_list/product_model_card.dart';
+import 'package:myecommerce/admin_side/admin/category_list/add_product_cat_screen.dart';
+import 'package:myecommerce/admin_side/admin/product_list/product_model_card.dart';
 import 'package:myecommerce/views/constants.dart';
 import 'package:myecommerce/views/navigation/router.dart';
 import 'package:provider/provider.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myecommerce/views/admin/admin.dart';
+import 'package:myecommerce/admin_side/admin/admin.dart';
 import 'package:myecommerce/views/components/signout_dilog.dart';
 import 'package:myecommerce/views/navigation/router.dart';
 import 'package:myecommerce/views/profail/pages/profile_page.dart';
@@ -30,7 +30,7 @@ class Body extends StatelessWidget {
             press: () {},
           ),
           ProfileMenu(
-            text: "Settings",
+            text: "Dashboard",
             icon: "assets/icons/Settings.svg",
             press: () {
               AppRouter.NavigateToWidget(Admin());

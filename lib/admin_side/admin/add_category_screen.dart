@@ -1,40 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:myecommerce/models/category_model.dart';
-import 'package:myecommerce/models/product_model.dart';
 import 'package:myecommerce/provider/CategoryFirestoreProvaider.dart';
 import 'package:myecommerce/provider/Product_firestore_provaider.dart';
-import 'package:myecommerce/views/admin/TextFieldAuth.dart';
-import 'package:myecommerce/views/admin/category_list/add_product_cat_screen.dart';
-import 'package:myecommerce/views/admin/category_list/product_cat_list.dart';
 import 'package:myecommerce/views/components/custom_dialog.dart';
 import 'package:myecommerce/views/constants.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:myecommerce/views/navigation/router.dart';
 
 import 'package:provider/provider.dart';
 
 
+import 'TextFieldAuth.dart';
+class AddCategoryScreen extends StatefulWidget {
+  @override
+  State<AddCategoryScreen> createState() => _AddCategoryScreenState();
+}
 
-class EditCategoryScreen extends StatelessWidget {
-   late CategoryModel categoryModel;
-   EditCategoryScreen(CategoryModel categoryModel){
-     this.categoryModel = categoryModel;
-     clearTextField();
-   }
-  clearTextField(){
+class _AddCategoryScreenState extends State<AddCategoryScreen> {
+  // clearTextField(){
+  String selectedCategory = "Select category";
 
-    Provider.of<CategoryFirestoreProvaider>(AppRouter.navKey.currentContext!,listen: false).categoryNameController.text = categoryModel.name;
 
-  }
 
   @override
   Widget build(BuildContext context) {
     // clearTextField();
-    return Consumer2<CategoryFirestoreProvaider,ProductFirestoreProvaider>(
-        builder: (context,providercat,providerPro,x) {
+    return Consumer<CategoryFirestoreProvaider>(
+        builder: (context,provider,x) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Edit Category',style: TextStyle(
+              title: Text('Add Category',style: TextStyle(
                   color: Colors.grey
               ),),
               centerTitle: true,
@@ -50,8 +45,6 @@ class EditCategoryScreen extends StatelessWidget {
 
                 icon: Icon(Icons.arrow_back),color: Colors.grey, onPressed: () {
                 AppRouter.popraoter();
-
-                providercat.categoryNameController.clear();
               },),
             ),
             body: SafeArea(
@@ -60,7 +53,7 @@ class EditCategoryScreen extends StatelessWidget {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: Form(
-                    key: providercat.cateKey,
+                    key: provider.cateKey,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -68,7 +61,7 @@ class EditCategoryScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 20,top: 20),
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width,
-                            child: Text('Edit  Image',style: TextStyle(
+                            child: Text('Add Image',style: TextStyle(
                               fontSize: 25.sp,
                               // color:kPrimaryColor,
 
@@ -78,7 +71,7 @@ class EditCategoryScreen extends StatelessWidget {
                         // SizedBox(height: .h,),
                         GestureDetector(
                           onTap: (){
-                            providercat.selecteImageFun();
+                            provider.selecteImageFun();
                           } ,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -91,10 +84,10 @@ class EditCategoryScreen extends StatelessWidget {
 
 
                               ),
-                              child: (providercat.selectedImage == null)
-                                  ?Image.network(categoryModel.urlimage)
-                                  :Image.file(providercat.selectedImage!),
-
+                              child: provider.selectedImage == null?
+                              Icon(Icons.add_a_photo_outlined,size: 25.sp,)
+                                  :Image.file(provider.selectedImage!)
+                              ,
                             ),
                           ),
                         ),
@@ -103,44 +96,28 @@ class EditCategoryScreen extends StatelessWidget {
                         TextFieldAuthWidget(
                           hintText: 'Category name',
                           suffix: Icon(Icons.drive_file_rename_outline),
-                          controller: providercat.categoryNameController,
-                          validator: providercat.nullvaliation,
+                          controller: provider.categoryNameController,
+                          validator: provider.nullvaliation,
                         ),
+                        SizedBox(height: 20.h,),
+
+                        // TextFieldAuthWidget(
+                        //   hintText: 'Price',
+                        //   suffix: Icon(Icons.attach_money),
+                        //   controller: provider.productPriceController,
+                        //   validator: provider.nullvaliation,
+                        // ),
+                        SizedBox(height: 40.h,),
 
                         SizedBox(height: 20.h,),
-                        InkWell(
-                          onTap: () async {
-                            await providerPro.getAllProduct(categoryModel.id!);
-                            AppRouter.NavigateToWidget(ProductCatList(categoryModel.id!));
-
-                          },
-                          child: Container(
-                            height: 55.h,
-                            width: 360.w,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: kPrimaryColor,
-                              borderRadius: BorderRadius.circular(7.0),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Color(0x26000000),
-                                  offset: Offset(0, 3),
-                                  blurRadius: 15,
-                                ),
-                              ],
-                            ),
-                            child: Text('Products',style: TextStyle(fontSize: 25.sp,color: Colors.white),),
-                          ),
-                        ),
-
-                        SizedBox(height: 50.h,),
+                        SizedBox(height: 30.h,),
 
                         InkWell(
                           onTap: () async {
-                            await providercat.upDateCategory(categoryModel);
-                            await Diloge.show("Category Saved");
-
-                            providercat.selectedImage = null;
+                            await provider.addNewCategory();
+                            await Diloge.show("Category added");
+                            provider.categoryNameController.clear();
+                            provider.selectedImage = null;
 
                           },
                           child: Container(
@@ -158,7 +135,7 @@ class EditCategoryScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            child: Text('Edit Category',style: TextStyle(fontSize: 25.sp,color: Colors.white),),
+                            child: Text('Add Category',style: TextStyle(fontSize: 25.sp,color: Colors.white),),
                           ),
                         ),
                         SizedBox(height: 10.h,),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myecommerce/models/category_model.dart';
-import 'package:myecommerce/views/admin/category_list/add_product_cat_screen.dart';
+import 'package:myecommerce/admin_side/admin/category_list/add_product_cat_screen.dart';
 import 'package:myecommerce/views/navigation/router.dart';
 
 class CategoryCard extends StatelessWidget {

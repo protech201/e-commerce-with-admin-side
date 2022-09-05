@@ -7,7 +7,6 @@ import 'package:myecommerce/provider/storge_provider.dart';
 import 'package:myecommerce/views/routes.dart';
 import 'package:provider/provider.dart';
 import 'package:myecommerce/provider/auth_provaider.dart';
-import 'package:myecommerce/views/admin/admin.dart';
 import 'package:myecommerce/views/navigation/router.dart';
 import 'package:myecommerce/views/routes.dart';
 
