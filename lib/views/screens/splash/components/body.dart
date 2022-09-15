@@ -71,8 +71,8 @@ class _BodyState extends State<Body> {
                     Spacer(flex: 3),
                     DefaultButton(
                       text: "Continue",
-                      press: () async{
-                       await Provider.of<AuthProvaider>(context,listen: false).checUser();
+                      press: () {
+                        Provider.of<AuthProvaider>(context,listen: false).checUser();
                       },
                     ),
                     Spacer(),

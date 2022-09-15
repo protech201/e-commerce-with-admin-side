@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:dialog_loader/dialog_loader.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:myecommerce/data/product_firestore_helper.dart';
 import 'package:myecommerce/provider/Product_firestore_provaider.dart';
@@ -38,16 +40,33 @@ class CategoryFirestoreProvaider extends ChangeNotifier{
     selectedImage= File(xfile!.path);
     notifyListeners();
   }
+  DialogLoader dialogLoader = DialogLoader(context: AppRouter.navKey.currentContext!);
+
+  _dialogLoader() async {
+
+    dialogLoader.show(
+      theme: LoaderTheme.dialogCircle,
+      title: Text("Loading"),
+      leftIcon: SizedBox(
+        child: CircularProgressIndicator(),
+        height: 25.0,
+        width: 25.0,
+      ),
+    );
+  }
 
 
   addNewCategory()async{
     if(selectedImage != null && cateKey.currentState!.validate()){
+      _dialogLoader();
       String imageUrl = await StorgeHelper.storgeHelper.uplodImage(selectedImage!);
       CategoryModel  categoryModel = CategoryModel(name: categoryNameController.text, urlimage: imageUrl);
       CategoryModel newCategory = await CategoryFirestoreHelper.categoryFirestoreHelper.addNewCategory(categoryModel);
       categores.add(newCategory);
+
       categoryNameController.clear();
       selectedImage = null;
+      dialogLoader.close();
       notifyListeners();
     }
   }
@@ -69,6 +88,7 @@ class CategoryFirestoreProvaider extends ChangeNotifier{
 
 
   upDateCategory(CategoryModel categoryModel) async {
+    _dialogLoader();
     String? url;
     if(selectedImage != null){
       url = await StorgeHelper.storgeHelper.uplodImage(selectedImage!);
@@ -80,6 +100,7 @@ class CategoryFirestoreProvaider extends ChangeNotifier{
     );
     CategoryFirestoreHelper.categoryFirestoreHelper.upDateCategory(newcategory);
     getAllCategories();
+    dialogLoader.close();
     notifyListeners();
   }
 

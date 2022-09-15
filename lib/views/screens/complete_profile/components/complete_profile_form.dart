@@ -56,8 +56,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
               SizedBox(height: getProportionateScreenHeight(40)),
               DefaultButton(
                 text: "continue",
-                press: () {
-                  provider.savingData();
+                press: () async{
+                  await provider.savingData();
                   AppRouter.NavigateWithReplacemtnToWidget(LoginSuccessScreen());
                   }
 

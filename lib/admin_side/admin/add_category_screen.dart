@@ -115,7 +115,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                         InkWell(
                           onTap: () async {
                             await provider.addNewCategory();
-                            await Diloge.show("Category added");
+                            // await Diloge.show("Category added");
                             provider.categoryNameController.clear();
                             provider.selectedImage = null;
 

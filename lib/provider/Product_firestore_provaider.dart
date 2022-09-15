@@ -2,9 +2,12 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:dialog_loader/dialog_loader.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:myecommerce/models/product_model.dart';
+import 'package:myecommerce/views/navigation/router.dart';
 
 
 import '../data/product_firestore_helper.dart';
@@ -37,8 +40,24 @@ class ProductFirestoreProvaider extends ChangeNotifier{
    notifyListeners();
   }
 
+  DialogLoader dialogLoader = DialogLoader(context: AppRouter.navKey.currentContext!);
+
+  _dialogLoader() async {
+
+    dialogLoader.show(
+      theme: LoaderTheme.dialogCircle,
+      title: Text("Loading"),
+      leftIcon: SizedBox(
+        child: CircularProgressIndicator(),
+        height: 25.0,
+        width: 25.0,
+      ),
+    );
+  }
+
   addNewProduct(String catId)async{
-    if(selectedImage != null && prodKey.currentState!.validate()){
+    if(  prodKey.currentState!.validate() && selectedImage != null){
+      _dialogLoader();
       String imageUrl = await StorgeHelper.storgeHelper.uplodImage(selectedImage!);
       ProductModel  productModel = ProductModel(
         price:productPriceController.text,
@@ -48,6 +67,7 @@ class ProductFirestoreProvaider extends ChangeNotifier{
         catId: catId,
       );
       ProductModel newProduct = await ProductFirestoreHelper.productFirestoreHelper.addNewProduct(productModel);
+      dialogLoader.close();
 
 
       products.add(newProduct);
@@ -73,6 +93,7 @@ class ProductFirestoreProvaider extends ChangeNotifier{
 
   upDateProduct(ProductModel productModel) async {
     String? url;
+    _dialogLoader();
     if(selectedImage != null){
       url = await StorgeHelper.storgeHelper.uplodImage(selectedImage!);
     }
@@ -86,6 +107,7 @@ class ProductFirestoreProvaider extends ChangeNotifier{
     );
     getAllProduct(productModel.catId!);
     ProductFirestoreHelper.productFirestoreHelper.updateProduct(newProduct);
+    dialogLoader.close();
     notifyListeners();
   }
 

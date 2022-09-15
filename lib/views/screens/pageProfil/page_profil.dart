@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:myecommerce/provider/auth_provaider.dart';
 import 'package:myecommerce/provider/storge_provider.dart';
+import 'package:myecommerce/views/navigation/router.dart';
 import 'package:provider/provider.dart';
 
 class PageProfile extends StatefulWidget {
@@ -41,10 +42,15 @@ class MapScreenState extends State<PageProfile>
                                 child: new Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    new Icon(
-                                      Icons.arrow_back_ios,
-                                      color: Colors.black,
-                                      size: 22.0,
+                                    InkWell(
+                                      onTap: (){
+                                        AppRouter.popraoter();
+                                      },
+                                      child: new Icon(
+                                        Icons.arrow_back_ios,
+                                        color: Colors.black,
+                                        size: 22.0,
+                                      ),
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(left: 25.0),
@@ -351,6 +357,8 @@ class MapScreenState extends State<PageProfile>
                     color: Colors.red,
                     onPressed: () {
                       setState(() {
+                        if(_status == true)
+                          AppRouter.popraoter();
                         _status = true;
                         FocusScope.of(context).requestFocus(new FocusNode());
                       });

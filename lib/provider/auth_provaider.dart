@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:dialog_loader/dialog_loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -73,13 +74,34 @@ class AuthProvaider extends ChangeNotifier{
       return"Please Enter Valid Email";
     }
   }
+
+  DialogLoader dialogLoader = DialogLoader(context: AppRouter.navKey.currentContext!);
+
+  _dialogLoader() async {
+
+    dialogLoader.show(
+      theme: LoaderTheme.dialogCircle,
+      title: Text("Loading"),
+      leftIcon: SizedBox(
+        child: CircularProgressIndicator(),
+        height: 25.0,
+        width: 25.0,
+      ),
+    );
+  }
+
+
   signIn()async{
     if(loginKey!.currentState!.validate()){
+      _dialogLoader();
+
       UserCredential? userCredential =    await AuthHelper.authHelper.signIn(emailController.text, passwordController.text);
       getData();
       if(userCredential != null){
       // loginKey = null;
-      AppRouter.NavigateWithReplacemtnToWidget(NavBar());
+        dialogLoader.close();
+
+        AppRouter.NavigateWithReplacemtnToWidget(NavBar());
       passwordController.clear();
       emailController.clear();
     }
@@ -90,10 +112,14 @@ class AuthProvaider extends ChangeNotifier{
 
   register()async{
     if(registerKey.currentState!.validate()){
-    UserCredential? userCredential = await AuthHelper.authHelper.signUp(emailController.text, passwordController.text);
+      _dialogLoader();
+
+      UserCredential? userCredential = await AuthHelper.authHelper.signUp(emailController.text, passwordController.text);
     // userModel = UserModel(email: emailController.text, userName: userNameController.text, city: cityController.text, phone: phoneController.text,id:userCredential!.user!.uid );
     // await UserFirestoreHelper.firestoreHelper.addUserToFirestore(userModel!);
     if(userCredential != null){
+      dialogLoader.close();
+
       AppRouter.NavigateWithReplacemtnToWidget(CompleteProfileScreen());
       passwordController.clear();
       // emailController.clear();
@@ -104,45 +130,65 @@ class AuthProvaider extends ChangeNotifier{
   }
 
   savingData()async{
-     userModel = UserModel(
+    if(completKey.currentState!.validate()){
+      _dialogLoader();
+
+      userModel = UserModel(
         email: emailController.text,
         userName: userNameController.text,
         city: cityController.text,
         phone: phoneController.text,
-      id: FirebaseAuth.instance.currentUser!.uid,
-    );
-     emailController.text = userModel!.email;
-     userNameController.text = userModel!.userName;
-     phoneController.text = userModel!.phone;
-     cityController.text = userModel!.city;
+        id: FirebaseAuth.instance.currentUser!.uid,
+      );
+      emailController.text = userModel!.email;
+      userNameController.text = userModel!.userName;
+      phoneController.text = userModel!.phone;
+      cityController.text = userModel!.city;
 
-    await UserFirestoreHelper.firestoreHelper.addUserToFirestore(userModel!);
+      await UserFirestoreHelper.firestoreHelper.addUserToFirestore(userModel!);
+      dialogLoader.close();
+
+    }
+
   }
 
 
 
 
   checUser() async {
+    _dialogLoader();
+
     User? user = await AuthHelper.authHelper.checUser();
      if(user == null){
+       dialogLoader.close();
+
        AppRouter.NavigateWithReplacemtnToWidget(SignInScreen());
      }else{
        // userModel = await UserFirestoreHelper.firestoreHelper.getUserFromFirestore(user.uid);
+       dialogLoader.close();
+
        AppRouter.NavigateWithReplacemtnToWidget(NavBar());
      }
+
 
   }
   signOut()async{
     // loginKey = GlobalKey();
      await AuthHelper.authHelper.signOut();
      Navigator.of(AppRouter.navKey.currentContext!).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>SignInScreen()), (route) => false);
+     controller.index = 0;
 
   }
 
   forgetPassurd()async{
     if(passKey!.currentState!.validate()){
-     await AuthHelper.authHelper.forgetPassurd(emailController.text);
-     Diloge.show('Check your email');
+      _dialogLoader();
+
+      await AuthHelper.authHelper.forgetPassurd(emailController.text);
+      dialogLoader.close();
+
+
+      Diloge.show('Check your email');
       emailController.clear();
 
     }
@@ -176,19 +222,28 @@ class AuthProvaider extends ChangeNotifier{
     notifyListeners();
   }
 
-  upDateImage()async{
+  upDateImage()async {
+    _dialogLoader();
+
     userModel!.urlImage = await uploadImage(selectedImage!);
+
     await UserFirestoreHelper.firestoreHelper.upDateImage(userModel!);
     notifyListeners();
+    dialogLoader.close();
+
   }
 
   upDateUser()async{
-   userModel?.email = emailController.text;
+   _dialogLoader();
+
+    userModel?.email = emailController.text;
    userModel?.phone = phoneController.text;
    userModel?.userName = userNameController.text;
    userModel?.city = cityController.text;
    await UserFirestoreHelper.firestoreHelper.upDateUser(userModel!);
-   notifyListeners();
+    dialogLoader.close();
+
+    notifyListeners();
   }
 
 

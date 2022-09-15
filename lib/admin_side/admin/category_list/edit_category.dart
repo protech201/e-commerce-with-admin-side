@@ -5,7 +5,7 @@ import 'package:myecommerce/models/product_model.dart';
 import 'package:myecommerce/provider/CategoryFirestoreProvaider.dart';
 import 'package:myecommerce/provider/Product_firestore_provaider.dart';
 import 'package:myecommerce/admin_side/admin/TextFieldAuth.dart';
-import 'package:myecommerce/admin_side/admin/category_list/add_product_cat_screen.dart';
+import 'package:myecommerce/admin_side/admin/product_list/add_product_cat_screen.dart';
 import 'package:myecommerce/admin_side/admin/category_list/product_cat_list.dart';
 import 'package:myecommerce/views/components/custom_dialog.dart';
 import 'package:myecommerce/views/constants.dart';
@@ -138,7 +138,7 @@ class EditCategoryScreen extends StatelessWidget {
                         InkWell(
                           onTap: () async {
                             await providercat.upDateCategory(categoryModel);
-                            await Diloge.show("Category Saved");
+                            // await Diloge.show("Category Saved");
 
                             providercat.selectedImage = null;
 

@@ -209,7 +209,7 @@ class _AddProductCatScreenState extends State<AddProductCatScreen> {
                         InkWell(
                           onTap: () async {
                               await provider.addNewProduct(widget.catId);
-                              await Diloge.show("Product added");
+                              // await Diloge.show("Product added");
                               provider.productDescriptionController.clear();
                               provider.productPriceController.clear();
                               provider.productTitleController.clear();

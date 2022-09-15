@@ -63,6 +63,10 @@ dependencies:
   dependencies:
   dropdown_button2:
   persistent_bottom_nav_bar: ^4.0.2
+  dialog_loader: ^0.0.3+3
+  simple_fontellico_progress_dialog: ^0.2.1
+
+
 
 
 

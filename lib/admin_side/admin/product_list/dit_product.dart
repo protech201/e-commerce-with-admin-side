@@ -158,7 +158,7 @@ class EditProductScreen extends StatelessWidget {
                         InkWell(
                           onTap: () async {
                             await provider.upDateProduct(productModel);
-                            await Diloge.show("Product Saved");
+                            // await Diloge.show("Product Saved");
 
                             provider.selectedImage = null;
 
