@@ -1,4 +1,4 @@
-# myecommerce
+# my-ecommerce
 
 A new Flutter project.
 
