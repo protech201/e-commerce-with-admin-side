@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:myecommerce/views/constants.dart';
 import 'package:myecommerce/views/navigation/router.dart';
 
-import '../constants.dart';
+
 
 class CustomDialog extends StatelessWidget {
 
@@ -48,22 +50,23 @@ class CustomDialog extends StatelessWidget {
           padding: const EdgeInsets.only(right: 16, left: 16),
           child: Text(v, style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
         ),
-        SizedBox(height: 24,),
-        // Row(
-        //   mainAxisSize: MainAxisSize.min,
-        //   children: <Widget>[
-        //     FlatButton(onPressed: (){
-        //       Navigator.of(context).pop();
-        //     }, child: Text('No'),textColor: Colors.white,),
-        //     SizedBox(width: 8,),
-        //     RaisedButton(onPressed: (){
-        //       return Navigator.of(context).pop(true);
-        //     }, child: Text('Yes'), color: Colors.white, textColor: Colors.redAccent,)
-        //   ],
-        // )
-      RaisedButton(onPressed: (){
-        AppRouter.popraoter();
-      }, child: Text('back'), color: Colors.white, textColor: Colors.redAccent,)
+        SizedBox(height: 35,),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            FlatButton(onPressed: (){
+              Navigator.of(context).pop();
+            }, child: Text('No'),textColor: Colors.white,),
+            SizedBox(width: 8,),
+            RaisedButton(onPressed: (){
+              SystemNavigator.pop();
+
+            }, child: Text('Yes'), color: Colors.white, textColor: Colors.redAccent,)
+          ],
+        )
+        // RaisedButton(onPressed: (){
+        //   AppRouter.popraoter();
+        // }, child: Text('back'), color: Colors.white, textColor: Colors.redAccent,)
 
       ],
     ),
