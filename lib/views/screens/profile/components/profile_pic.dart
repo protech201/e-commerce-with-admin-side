@@ -20,7 +20,7 @@ class ProfilePic extends StatelessWidget {
             clipBehavior: Clip.none,
             children: [
               CircleAvatar(
-                backgroundImage: NetworkImage(provider.userModel!.urlImage??"https://raw.githubusercontent.com/flutter-devs/flutter_profileview_demo/master/assets/images/as.png"),
+                backgroundImage: NetworkImage(provider.userModel?.urlImage??"https://raw.githubusercontent.com/flutter-devs/flutter_profileview_demo/master/assets/images/as.png"),
               ),
               // Positioned(
               //   right: -16,

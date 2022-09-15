@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myecommerce/views/components/custom_dialog.dart';
+import 'package:myecommerce/views/screens/nav_bar.dart';
 
 import 'components/body.dart';
 
@@ -13,7 +15,16 @@ class SignInScreen extends StatelessWidget {
         ),),
 
       ),
-      body: Body(),
+      body:  WillPopScope(
+          onWillPop: (){
+            if(Navigator.canPop(context)){
+              return Future.value(true);
+            }else{
+              // SystemNavigator.pop();
+              Diloge.show("هل تريد الخروج");
+              return Future.value(false);
+            }
+          },child: Body()),
     );
   }
 }

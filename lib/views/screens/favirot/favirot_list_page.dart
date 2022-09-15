@@ -143,7 +143,7 @@ class _FavourtListPageState extends State<FavourtListPage> {
                 ),
               ),
             ),
-            bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.category),
+            // bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.category),
           );
         }
     );

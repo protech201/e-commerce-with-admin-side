@@ -143,7 +143,7 @@ class _CategoryListPageScreenState extends State<CategoryListPageScreen> {
               ),
             ),
           ),
-          bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.category),
+          // bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.category),
         );
       }
     );

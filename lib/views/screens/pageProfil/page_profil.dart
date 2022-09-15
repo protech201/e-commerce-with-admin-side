@@ -70,23 +70,13 @@ class MapScreenState extends State<PageProfile>
                                         decoration: new BoxDecoration(
                                           shape: BoxShape.circle,
                                           image: new DecorationImage(
-                                            image: NetworkImage(provider.userModel!.urlImage??"https://raw.githubusercontent.com/flutter-devs/flutter_profileview_demo/master/assets/images/as.png"),
+                                            image: NetworkImage(provider.userModel?.urlImage??"https://raw.githubusercontent.com/flutter-devs/flutter_profileview_demo/master/assets/images/as.png"),
                                             fit: BoxFit.cover,
                                           ),
                                         )),
                                   ],
                                 ),
-                                //  (provider.selectedImage == null)
-                                //                       ? InkWell(onTap: (){
-                                //                         provider.selecteImageFun();
-                                //                   },child: CircleAvatar(backgroundColor: Colors.green,radius: 50,))
-                                //                       : InkWell(
-                                //                       onTap: (){
-                                //                         provider.selecteImageFun();
-                                //                       },
-                                //
-                                //                       child: CircleAvatar(backgroundImage: FileImage(provider.selectedImage!),)
-                                //                   )
+
                                 Padding(
                                     padding: EdgeInsets.only(top: 90.0, right: 100.0),
                                     child: new Row(
@@ -296,8 +286,7 @@ class MapScreenState extends State<PageProfile>
                                       ),
                                     ],
                                   )),
-
-                              !_status ? _getActionButtons() : new Container(),
+                              _getActionButtons()
                             ],
                           ),
                         ),

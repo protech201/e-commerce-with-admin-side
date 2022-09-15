@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myecommerce/views/screens/cart/cart_screen.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import '../../../size_config.dart';
 import 'icon_btn_with_counter.dart';
@@ -21,7 +22,15 @@ class HomeHeader extends StatelessWidget {
           SearchField(),
           IconBtnWithCounter(
             svgSrc: "assets/icons/Cart Icon.svg",
-            press: () => Navigator.pushNamed(context, CartScreen.routeName),
+            press: () =>pushNewScreen(
+              context,
+              screen: CartScreen(),
+              withNavBar: false, // OPTIONAL VALUE. True by default.
+              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+            )
+                // Navigator.push(context, MaterialPageRoute(builder: (context)=>CartScreen()))
+                // Navigator.pushNamed(context, CartScreen.routeName)
+            ,
           ),
           IconBtnWithCounter(
             svgSrc: "assets/icons/Bell.svg",

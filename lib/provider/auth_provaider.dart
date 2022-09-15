@@ -4,8 +4,10 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/change_notifier.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:myecommerce/views/screens/nav_bar.dart';
 import 'package:string_validator/string_validator.dart';
 
 import 'package:myecommerce/data/authe_helper.dart';
@@ -77,7 +79,7 @@ class AuthProvaider extends ChangeNotifier{
       getData();
       if(userCredential != null){
       // loginKey = null;
-      AppRouter.NavigateWithReplacemtnToWidget(DoneScreen());
+      AppRouter.NavigateWithReplacemtnToWidget(NavBar());
       passwordController.clear();
       emailController.clear();
     }
@@ -126,13 +128,15 @@ class AuthProvaider extends ChangeNotifier{
        AppRouter.NavigateWithReplacemtnToWidget(SignInScreen());
      }else{
        // userModel = await UserFirestoreHelper.firestoreHelper.getUserFromFirestore(user.uid);
-       AppRouter.NavigateWithReplacemtnToWidget(HomeScreen());
+       AppRouter.NavigateWithReplacemtnToWidget(NavBar());
      }
 
   }
   signOut()async{
     // loginKey = GlobalKey();
      await AuthHelper.authHelper.signOut();
+     Navigator.of(AppRouter.navKey.currentContext!).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>SignInScreen()), (route) => false);
+
   }
 
   forgetPassurd()async{
